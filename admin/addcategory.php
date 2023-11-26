@@ -9,9 +9,9 @@ if(isset($_POST) & !empty($_POST)){
     $sql = "INSERT INTO category (name) VALUES ('$name')";
     $res = mysqli_query($connection, $sql);
     if($res){
-        echo "Category Added";
+        $smsg = "Category Added";
     }else{
-        echo "Failed Add Category";
+        $fmsg = "Failed to Add Category";
     }
 }
 
@@ -24,7 +24,9 @@ if(isset($_POST) & !empty($_POST)){
 <section id="content">
     <div class="content-blog">
         <div class="container">
-          <form method="post">
+        <?php if(isset($fmsg)){ ?><div class="alert alert-danger" role="alert"> <?php echo $fmsg; ?> </div><?php } ?>
+        <?php if(isset($smsg)){ ?><div class="alert alert-success" role="alert"> <?php echo $smsg; ?> </div><?php } ?>  
+        <form method="post">
               <div class="form-group">
                   <label for="Productname">Category Name:</label>
                   <input type="text" class="form-control" name="categoryname" id="Categoryname"

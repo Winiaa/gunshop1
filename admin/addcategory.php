@@ -9,7 +9,7 @@ if(isset($_POST) & !empty($_POST)){
     $sql = "INSERT INTO category (name) VALUES ('$name')";
     $res = mysqli_query($connection, $sql);
     if($res){
-        $smsg = "Category Added";
+        $smsg = "Category Added Successfully!";
     }else{
         $fmsg = "Failed to Add Category";
     }

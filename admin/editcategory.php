@@ -15,7 +15,7 @@ if(isset($_POST) & !empty($_POST)){
     $sql = "UPDATE category SET name = '$name' WHERE id=$id";
     $res = mysqli_query($connection, $sql);
     if($res){
-        $smsg = "Category Updated";
+        $smsg = "Category Updated Successfully!";
     }else{
         $fmsg = "Failed To Update";
     }

@@ -5,50 +5,20 @@ if(!isset($_SESSION['email']) & empty($_SESSION['email'])){
     header('location: login.php');
 }
 
-$smsg = $fmsg = ''; // Initialize messages
-$location = 'uploads/'; // Provide a default value for $location
-$name = $description = $category = $price = ''; // Initialize variables
-
 if(isset($_POST) & !empty($_POST)){
-    $name = mysqli_real_escape_string($connection, $_POST['productname']);
+    $name = mysqli_real_string($conneection, $_POST['productname']);
     $description = mysqli_real_escape_string($connection, $_POST['productdescription']);
     $category = mysqli_real_escape_string($connection, $_POST['productcategory']);
     $price = mysqli_real_escape_string($connection, $_POST['productprice']);
 
-    if(isset($_FILES) & !empty($_FILES)){
-        $name = $_FILES['productimage']['name'];
-        $size = $_FILES['productimage']['size'];
-        $type = $_FILES['productimage']['type'];
-        $tmp_name = $_FILES['productimage']['tmp_name'];
-       
-        $max_size = 1000000;
-        $extension = substr($name, strpos($name, '.') +1);
-
-        if(isset($name) & !empty($name)){
-                if(($extension == 'jpg' || $extension == 'jpeg') && $type == 'image/jpeg' && $size<=$max_size){
-                if(move_uploaded_file($tmp_name, $location.$name)){
-                    echo "Uploaded Successfully";
-                }
-            } else {
-                echo "Only JPG files are allowed and should be less than 1MB";
-            }
-        } else {
-            echo "Please select a file";
-        }
-    }
-        
-}
-    
-
-
-    $sql = "INSERT INTO products (name,description,catid,price,thumb) VALUES ('$name', '$description', '$category', '$price', '$location$name')";
+    $sql = "INSERT INTO products (name,description,catid,price) VALUES ('$name', '$description', '$category', '$price' )";
     $res = mysqli_query($connection, $sql);
     if($res){
         $smsg = "Product Created Successfully!";
     }else{
         $fmsg = "Failed to Create Product";
     }
-
+}
 
 ?>
 <?php include 'inc/header.php'?>
@@ -57,8 +27,8 @@ if(isset($_POST) & !empty($_POST)){
 <section id="content">
     <div class="content-blog">
         <div class="container">
-            <form method="post" enctype="multipart/form-data">
-                <div class="form-group" >
+            <form method="post">
+                <div class="form-group">
                     <label for="Productname">Product Name </label>
                     <input type="text" class="form-control" name="productname" id="Productname" placeholder="Product Name">
                 </div>
@@ -76,7 +46,7 @@ if(isset($_POST) & !empty($_POST)){
                         while ($r = mysqli_fetch_assoc($res)) {
 
                 ?>
-                 <option value="<?php echo $r['id']; ?>"><?php echo $r['name']; ?></option>
+                 <option value="<?php $r['id']; ?>"><?php $r['name']; ?></option>
                         
                 <?php } ?>
                     </select>

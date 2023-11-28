@@ -27,13 +27,20 @@ if(!isset($_SESSION['email']) & empty($_SESSION['email'])){
 </tr>
 </thead>
 <tbody>
+<?php
+                $sql = "SELECT * FROM products";
+                $res = mysqli_query($connection, $sql);
+                while ($r = mysqli_fetch_assoc($res)) {
+
+                ?>
     <tr>
-        <th scope="row">S.NO</th>
-        <td>Product Name</td>
-        <td>Category Name</td>
-        <td>Yes/No</td>
-        <td><a href="#">Edit</a> | <a href="#">Delete</a></td>
+        <th scope="row"><?php echo $r['id']; ?></th>
+        <td><?php echo $r['name']; ?></td>
+        <td><?php echo $r['catid']; ?></td>
+        <td><?php if($r['thumb']){ echo "Yes"; }else{echo "No";} ?></td>
+        <td><a href="editproduct.php?id=<?php echo $r['id']; ?>">Edit</a> | <a href="delproduct.php?id=<?php echo $r['id']; ?>">Delete</a></td>
 </tr>
+<?php } ?>
 </tbody>
 </table>
 </div>

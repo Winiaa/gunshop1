@@ -1,27 +1,69 @@
 <?php
+// The code below here have to access to the login first before can move to this product page
 session_start();
 require_once '../config/connect.php';
 if(!isset($_SESSION['email']) & empty($_SESSION['email'])){
     header('location: login.php');
 }
-
+// The code here redirect to the products page
 if(isset($_GET) & !empty($_GET)){
     $id = $_GET['id'];
 }else{
-    header('location: categories.php');
+    header('location: products.php');
+}
+
+$location = 'uploads/'; // Provide a default value for $location
+$name = $description = $category = $price = ''; // Initialize variables
+
+if(isset($_POST) & !empty($_POST)){
+    $prodname = mysqli_real_escape_string($connection, $_POST['productname']);
+    $description = mysqli_real_escape_string($connection, $_POST['productdescription']);
+    $category = mysqli_real_escape_string($connection, $_POST['productcategory']);
+    $price = mysqli_real_escape_string($connection, $_POST['productprice']);
+
+    // Here is the logic code and the way to reupload the image
+    if(isset($_FILES) & !empty($_FILES)){
+        $name = $_FILES['productimage']['name'];
+        $size = $_FILES['productimage']['size'];
+        $type = $_FILES['productimage']['type'];
+        $tmp_name = $_FILES['productimage']['tmp_name'];
+       
+        $max_size = 1000000;
+        $extension = substr($name, strpos($name, '.') +1);
+
+        if(isset($name) & !empty($name)){
+                if(($extension == 'jpg' || $extension == 'jpeg') && $type == 'image/jpeg' && $size<=$max_size){
+                if(move_uploaded_file($tmp_name, $location.$name)){
+                    $smsg =  "Uploaded Successfully";
+                }
+            } else {
+                $fmsg = "Only JPG files are allowed and should be less than 1MB";
+            }
+        } else {
+            $fmsg = "Please select a file";
+        }
+         
+}
+    // The code below here is to update the product
+    $sql = "UPDATE products SET name='$prodname', description='$description', catid='category', price='$price', thumb='$location$name' WHERE id = $id";
+    $res = mysqli_query($connection, $sql);
+    if($res){
+        $smsg = "Product Updated Successfully!";
+    }else{
+        $fmsg = "Failed to Update the Product";
+    }
+
 }
 ?>
 <?php include 'inc/header.php'?>
 <?php include 'inc/nav.php'?>
 
-
-
-
-
-
 <section id="content">
     <div class="content-blog">
         <div class="container">
+            <!-- The code here to show the message -->
+        <?php if(isset($fmsg)){ ?><div class="alert alert-danger" role="alert"> <?php echo $fmsg; ?> </div><?php } ?>
+        <?php if(isset($smsg)){ ?><div class="alert alert-success" role="alert"> <?php echo $smsg; ?> </div><?php } ?>  
         <?php
                     $sql = "SELECT * FROM products WHERE id=$id";
                     $res = mysqli_query($connection, $sql);
@@ -45,6 +87,7 @@ if(isset($_GET) & !empty($_GET)){
                         while ($catr = mysqli_fetch_assoc($catres)) {
 
                 ?>
+                <!-- The code here to show the selected category the list down -->
                 <option value="<?php echo $catr['id']; ?>"><?php if($catr['id'] == $r['catid']){echo "selected";}?><?php echo $catr['name']; ?></option>
                 <?php } ?>
                         
@@ -55,12 +98,13 @@ if(isset($_GET) & !empty($_GET)){
                     <label for="productprice">Product Price </label>
                     <input type="text" class="form-control" name="productprice" id="productprice" placeholder="Product Price" value="<?php echo $r['price']; ?>">
                 </div>
+                <!-- In this form help to decide the size and extension of the image -->
                 <div class="form-group">
                     <label for="productimage">Product Image </label>
                     <?php if(isset($r['thumb']) & !empty($r['thumb'])){ ?>
                         <br>
                         <img src="<?php echo $r['thumb'] ?>" width="100px" height="100px">
-                        <a href="delproding.php?id=<?php $r['id']; ?>">Delete Image</a>
+                        <a href="delprodimg.php?id=<?php echo $r['id']; ?>">Delete Image</a>
                     <?php }else{ ?>
                     <input type="file" name="productimage" id="productimage" placeholder="Product Image">
                     <p class="help-block">Only jpg/png are allowed.</p>

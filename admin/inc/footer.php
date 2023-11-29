@@ -5,7 +5,7 @@
     <div class="footer-bottom container">
         <div class="row">
             <div class="col-md-6">
-                <p>&copy; Copyright 2015. CodingCyber</p>
+                <p>&copy; Copyright 2023. Winia Nawasirikhun</p>
             </div>
             <div class="col-md-6">
 

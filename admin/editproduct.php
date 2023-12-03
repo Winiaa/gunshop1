@@ -33,7 +33,8 @@ if(isset($_POST) & !empty($_POST)){
 
         if(isset($name) & !empty($name)){
                 if(($extension == 'jpg' || $extension == 'jpeg') && $type == 'image/jpeg' && $size<=$max_size){
-                if(move_uploaded_file($tmp_name, $location.$name)){
+                    $filepath= $location.$name;
+                if(move_uploaded_file($tmp_name, $filepath)){
                     $smsg =  "Uploaded Successfully";
                 }
             } else {
@@ -43,9 +44,11 @@ if(isset($_POST) & !empty($_POST)){
             $fmsg = "Please select a file";
         }
          
+} else{
+    $filepath = $_POST['filepath'];
 }
     // The code below here is to update the product
-    $sql = "UPDATE products SET name='$prodname', description='$description', catid='category', price='$price', thumb='$location$name' WHERE id = $id";
+    $sql = "UPDATE products SET name='$prodname', description='$description', catid='$category', price='$price', thumb='$filepath' WHERE id = $id";
     $res = mysqli_query($connection, $sql);
     if($res){
         $smsg = "Product Updated Successfully!";
@@ -71,6 +74,7 @@ if(isset($_POST) & !empty($_POST)){
                     ?>
             <form method="post" entype="multipart/form-data">
                 <div class="form-group">
+                    <input type="hidden" name="filepath" value="<?php echo $r['thumb']; ?>">
                     <label for="Productname">Product Name </label>
                     <input type="text" class="form-control" name="productname" id="Productname" placeholder="Product Name" value="<?php echo $r['name']; ?>">
                 </div>

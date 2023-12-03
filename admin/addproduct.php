@@ -27,7 +27,15 @@ if(isset($_POST) & !empty($_POST)){
         if(isset($name) & !empty($name)){
                 if(($extension == 'jpg' || $extension == 'jpeg') && $type == 'image/jpeg' && $size<=$max_size){
                 if(move_uploaded_file($tmp_name, $location.$name)){
-                    $smsg =  "Uploaded Successfully";
+                    // $smsg =  "Uploaded Successfully";
+                    
+                    $sql = "INSERT INTO products (name,description,catid,price,thumb) VALUES ('$prodname', '$description', '$category', '$price', '$location$name')";
+                    $res = mysqli_query($connection, $sql);
+                    if($res){
+                        $smsg = "Product Created Successfully!";
+                    }else{
+                        $fmsg = "Failed to Create Product";
+                    }
                 }
             } else {
                 $fmsg = "Only JPG files are allowed and should be less than 1MB";
@@ -36,17 +44,18 @@ if(isset($_POST) & !empty($_POST)){
             $fmsg = "Please select a file";
         }
          
-}
+}else{
     
 
 
-    $sql = "INSERT INTO products (name,description,catid,price,thumb) VALUES ('$name', '$description', '$category', '$price', '$location$name')";
+    $sql = "INSERT INTO products (name,description,catid,price) VALUES ('$prodname', '$description', '$category', '$price')";
     $res = mysqli_query($connection, $sql);
     if($res){
         $smsg = "Product Created Successfully!";
     }else{
         $fmsg = "Failed to Create Product";
     }
+}
 
 }
 

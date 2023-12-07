@@ -1,6 +1,19 @@
+<?php
+require_once 'config/connect.php';
+include 'inc/header.php'; 
+include 'inc/nav.php';
 
-<?php include 'inc/header.php' ?>
-<?php include 'inc/nav.php' ?>
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+    $id = $_GET['id'];
+    $prodsql = "SELECT * FROM products WHERE id=$id";
+    $prodres = mysqli_query($connection, $prodsql);
+    $prodr = mysqli_fetch_assoc($prodres);
+} else {
+    header('location: index.php');
+}
+
+?>
+
 
     <!-- SHOP CONTENT -->
     <section id="content">
@@ -20,31 +33,13 @@
                                 <div class="gal-wrap">
                                     <div id="gal-slider" class="flexslider">
                                         <ul class="slides">
-                                            <li><img src="images/shop/1.jpg" class="img-responsive" alt=""/></li>
-                                            <li><img src="images/shop/2.jpg" class="img-responsive" alt=""/></li>
-                                            <li><img src="images/shop/3.jpg" class="img-responsive" alt=""/></li>
-                                            <li><img src="images/shop/4.jpg" class="img-responsive" alt=""/></li>
+                                            <li><img src="admin/<?php echo $prodr['thumb']; ?>" class="img-responsive" alt=""/></li>   
                                         </ul>
                                     </div>
                                     <ul class="gal-nav">
                                         <li>
                                             <div>
-                                                <img src="images/shop/1.jpg" class="img-responsive" alt=""/>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div>
-                                                <img src="images/shop/2.jpg" class="img-responsive" alt=""/>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div>
-                                                <img src="images/shop/3.jpg" class="img-responsive" alt=""/>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div>
-                                                <img src="images/shop/4.jpg" class="img-responsive" alt=""/>
+                                                <img src="admin/<?php echo $prodr['thumb']; ?>" class="img-responsive" alt=""/>
                                             </div>
                                         </li>
                                     </ul>
@@ -53,10 +48,10 @@
                                 </div>
                             </div>
                             <div class="col-md-7 product-single">
-                                <h2 class="product-single-title no-margin">Shaving Knives</h2>
+                                <h2 class="product-single-title no-margin"><?php echo $prodr['name']; ?></h2>
                                 <div class="space10"></div>
-                                <div class="p-price">$199.99</div>
-                                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration.</p>
+                                <div class="p-price">$<?php echo $prodr['price']; ?>.00/-</div>
+                                <p><?php echo $prodr['description']; ?></p>
                                 <div class="product-quantity">
                                     <span>Quantity:</span>
                                     <form>
@@ -67,8 +62,15 @@
                                     <a href="#" class="button btn-small">Add to Cart</a>
                                 </div>
                                 <div class="product-meta">
-                                    <span>Categories: <a href="#">bag</a>, <a href="#">black</a>, <a href="#">darck</a>, <a href="#">sport</a>, <a href="#">ewuipment</a></span><br>
-                                    <span>Tags: <a href="#">point</a>, <a href="#">size</a>, <a href="#">bike</a>, <a href="#">bag</a>, <a href="#">black</a>, <a href="#">darck</a>, <a href="#">sport</a>, <a href="#">ewuipment</a></span>
+                                    <span>Categories: 
+                                        <?php
+                                        // In this logic it is showing whic category name in each product when the customer has selected that product
+                                         $prodcatsql = "SELECT * FROM category WHERE id={$prodr['catid']}";
+                                        $prodcatres = mysqli_query($connection, $prodcatsql);
+                                        $prodcatr = mysqli_fetch_assoc($prodcatres);
+                                        ?>
+                                        <a href="#"><?php echo $prodcatr['name'] ?></a></span><br>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -77,13 +79,13 @@
                             <!-- Nav Tabs -->
                             <div class="align-center mb-40 mb-xs-30">
                                 <ul class="nav nav-tabs tpl-minimal-tabs animate">
-                                    <li class="active col-md-4">
+                                    <li class="active col-md-6">
                                         <a aria-expanded="true" href="#mini-one" data-toggle="tab">Overview</a>
                                     </li>
-                                    <li class="col-md-4">
+                                    <!-- <li class="col-md-4">
                                         <a aria-expanded="false" href="#mini-two" data-toggle="tab">Product Info</a>
-                                    </li>
-                                    <li class="col-md-4">
+                                    </li> -->
+                                    <li class="col-md-6">
                                         <a aria-expanded="false" href="#mini-three" data-toggle="tab">Reviews</a>
                                     </li>
                                 </ul>
@@ -92,25 +94,10 @@
                             <!-- Tab panes -->
                             <div style="height: auto;" class="tab-content tpl-minimal-tabs-cont align-center section-text">
                                 <div style="" class="tab-pane fade active in" id="mini-one">
-                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration.</p>
-                                    <table class="table tba2">
-                                        <tbody>
-                                        <tr>
-                                            <td>Sizes</td>
-                                            <td>M, L, XL, XXL</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Prodused in</td>
-                                            <td>USA</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Material</td>
-                                            <td>plastic, textile</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                    <p><?php echo $prodr['description']; ?></p> 
                                 </div>
-                                <div style="" class="tab-pane fade" id="mini-two">
+
+                              <!--  <div style="" class="tab-pane fade" id="mini-two">
                                     <table class="table tba2">
                                         <tbody>
                                         <tr>
@@ -144,6 +131,7 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                        -->
                                 <div style="" class="tab-pane fade" id="mini-three">
                                     <div class="col-md-12">
                                         <h4 class="uppercase space35">3 Reviews for Shaving Knives</h4>

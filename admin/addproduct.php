@@ -32,7 +32,8 @@ if(isset($_POST) & !empty($_POST)){
                     $sql = "INSERT INTO products (name,description,catid,price,thumb) VALUES ('$prodname', '$description', '$category', '$price', '$location$name')";
                     $res = mysqli_query($connection, $sql);
                     if($res){
-                        $smsg = "Product Created Successfully!";
+                        // $smsg = "Product Created Successfully!";
+                        header('location: products.php');
                     }else{
                         $fmsg = "Failed to Create Product";
                     }

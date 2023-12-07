@@ -8,10 +8,16 @@
             <a href="#">Shop</a>
             <div class="mobnav-subarrow"><i class="fa fa-plus"></i></div>
             <ul>
-                <li><a href="#">Category1</a></li>
-                <li><a href="#">Category1</a></li>
-                <li><a href="#">Category1</a></li>
-                <li><a href="#">Category1</a></li>
+              
+                <?php
+                  // The code below to fetch the category
+                    $catsql = "SELECT * FROM category";
+                    $catres = mysqli_query($connection, $catsql);
+                    while($catr = mysqli_fetch_assoc($catres)){
+                ?>
+                <li><a href="index.php?id=<?php echo $catr['id']; ?>"><?php echo $catr['name']; ?></a></li>
+              
+                <?php } ?>
             </ul>
         </li>
         <li>

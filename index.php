@@ -1,5 +1,6 @@
-
-<?php include 'inc/header.php'?>
+<?php
+require_once 'config/connect.php';
+include 'inc/header.php' ?>
 <?php include 'inc/nav.php'?>
 
 
@@ -18,14 +19,27 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div id="shop-mason" class="shop-mason-4col">
+
+                            <?php   
+
+                                     // here is the code to show product
+                                    $sql = "SELECT * FROM products";
+                                    if(isset($_GET['id']) & !empty($_GET['id'])){
+                                        $id = $_GET['id'];
+                                        $sql .= " WHERE catid=$id";
+                                    }
+                                    
+                                    $res = mysqli_query($connection, $sql);
+                                    while($r = mysqli_fetch_assoc($res)){ 
+                            ?>
                                 <div class="sm-item isotope-item">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <img src="images/shop/1.jpg" class="img-responsive" alt="">
+                                            <img src="admin/<?php echo $r['thumb']; ?>" class="img-responsive" alt="">
                                             <div class="product-overlay">
 												<span>
-												<a href="./shop-single-full.html" class="fa fa-link"></a>
-												<a href="./shop-single-full.html" class="fa fa-shopping-cart"></a>
+												<a href="single.php?id=<?php echo $r['id']; ?>" class="fa fa-link"></a>
+												<a href="#" class="fa fa-shopping-cart"></a>
 												</span>
                                             </div>
                                         </div>
@@ -36,10 +50,11 @@
                                             <span class="fa fa-star act"></span>
                                             <span class="fa fa-star act"></span>
                                         </div>
-                                        <h2 class="product-title"><a href="#">Shave Knives</a></h2>
-                                        <div class="product-price">$79.00<span>$200.00</span></div>
+                                        <h2 class="product-title"><a href="#"><?php echo $r['name']; ?></a></h2>
+                                        <div class="product-price">-<span></span></div>
                                     </div>
                                 </div>
+                                <?php } ?>
 
                             </div>
                         </div>

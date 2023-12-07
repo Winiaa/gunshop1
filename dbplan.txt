@@ -1,0 +1,29 @@
+-Here is my DB plan for this gunshop
+
+Admin
+-id
+-FirstName
+-LastName
+-username/email
+-password
+
+Category
+-id
+-categoryname
+
+Products
+-id
+-name
+-categoryid
+-price
+-thumbnail
+-description
+
+Users
+Users Meta
+
+Orders
+OrderItems
+OrdersTracking
+
+Wishlist

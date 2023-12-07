@@ -89,12 +89,13 @@ if(isset($_POST) & !empty($_POST)){
                         $catsql = "SELECT * FROM category";
                         $catres = mysqli_query($connection, $catsql);
                         while ($catr = mysqli_fetch_assoc($catres)) {
-
-                ?>
-                <!-- The code here to show the selected category the list down -->
-                <option value="<?php echo $catr['id']; ?>"><?php if($catr['id'] == $r['catid']){echo "selected";}?><?php echo $catr['name']; ?></option>
-                <?php } ?>
-                        
+                            
+                            // The code below here is working like to select the listed category item in the product editing form.
+                            ?>
+                            <option value="<?php echo $catr['id']; ?>" <?php echo ($catr['id'] == $r['catid']) ? "selected" : ""; ?>>
+                                <?php echo $catr['name']; ?>
+                            </option>
+                        <?php } ?>
                     </select>
                 </div>
 

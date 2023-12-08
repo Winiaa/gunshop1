@@ -1,5 +1,10 @@
-<?php include 'inc/header.php' ?>
-<?php include 'inc/nav.php' ?>
+<?php
+session_start();
+require_once 'config/connect.php';
+include 'inc/header.php';
+include 'inc/nav.php';
+$cart = $_SESSION['cart'];
+?>
 
 
     <!-- SHOP CONTENT -->
@@ -25,53 +30,52 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>
-                                    <a class="remove"><i class="fa fa-times"></i></a>
-                                </td>
-                                <td>
-                                    <a href="#"><img src="images/shop/1.jpg" alt="" height="90" width="90"></a>
-                                </td>
-                                <td>
-                                    <a href="#">Shaving Knives</a>
-                                </td>
-                                <td>
-                                    <span class="amount">£69.99</span>
-                                </td>
-                                <td>
-                                    <div class="quantity">1</div>
-                                </td>
-                                <td>
-                                    <span class="amount">£69.99</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a class="remove"><i class="fa fa-times"></i></a>
-                                </td>
-                                <td>
-                                    <a href="#"><img src="images/shop/2.jpg" alt="" height="90" width="90"></a>
-                                </td>
-                                <td>
-                                    <a href="#">Comb Scissors</a>
-                                </td>
-                                <td>
-                                    <span class="amount">£119.99</span>
-                                </td>
-                                <td>
-                                    <div class="quantity">1</div>
-                                </td>
-                                <td>
-                                    <span class="amount">£119.99</span>
-                                </td>
-                            </tr>
+
+                    <?php
+
+                    foreach ($cart as $key => $value) {
+                    $cartsql = "SELECT * FROM products WHERE id=$key";
+                    $cartres = mysqli_query($connection, $cartsql);
+
+                // Check if the query was successful and if the product exists
+                if ($cartres && $cartres->num_rows > 0 && $cartr = mysqli_fetch_assoc($cartres)) {
+                ?>
+        <tr>
+            <td>
+                <a class="remove"><i class="fa fa-times"></i></a>
+            </td>
+            <td>
+                <a href="#"><img src="admin/<?php echo $cartr['thumb']; ?>" alt="" height="90" width="90"></a>
+            </td>
+            <td>
+                <a href="single.php?id=<?php echo $cartr['id']; ?>"><?php echo substr($cartr['name'], 0, 30); ?></a>
+            </td>
+            <td>
+                <span class="amount">$<?php echo $cartr['price']; ?>.00/-</span>
+            </td>
+            <td>
+                <div class="quantity"><?php echo $value['quantity']; ?></div>
+            </td>
+            <td>
+                <span class="amount">$<?php echo $cartr['price'] * $value['quantity']; ?>.00/-</span>
+            </td>
+        </tr>
+            <?php
+                } else {
+        // Handle the case where the product is not found or query fails (optional)
+        // You might want to display an error message or take appropriate action.
+                }
+            }
+        ?>
+
+                    
                             <tr>
                                 <td colspan="6" class="actions">
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <div class="coupon">
                                             <label>Coupon:</label><br>
                                             <input placeholder="Coupon code" type="text"> <button type="submit">Apply</button>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="col-md-6">
                                         <div class="cart-btn">

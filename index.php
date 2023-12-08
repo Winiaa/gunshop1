@@ -39,7 +39,7 @@ include 'inc/header.php' ?>
                                             <div class="product-overlay">
 												<span>
 												<a href="single.php?id=<?php echo $r['id']; ?>" class="fa fa-link"></a>
-												<a href="#" class="fa fa-shopping-cart"></a>
+												<a href="addtocart.php?id=<?php echo $r['id']; ?>" class="fa fa-shopping-cart"></a>
 												</span>
                                             </div>
                                         </div>
@@ -51,7 +51,7 @@ include 'inc/header.php' ?>
                                             <span class="fa fa-star act"></span>
                                         </div>
                                         <h2 class="product-title"><a href="#"><?php echo $r['name']; ?></a></h2>
-                                        <div class="product-price">-<span></span></div>
+                                        <div class="product-price">$<?php echo $r['price']; ?>.00/-<span></span></div>
                                     </div>
                                 </div>
                                 <?php } ?>

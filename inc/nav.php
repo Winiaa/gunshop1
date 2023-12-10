@@ -49,7 +49,7 @@
                 <br>
                 <br>
                 <?php
-$total = 0;
+    $total = 0;
 
 foreach ($cart as $key => $value) {
     $navcartsql = "SELECT * FROM products WHERE id=$key";
@@ -74,8 +74,8 @@ foreach ($cart as $key => $value) {
                 }
                 ?>
                 <div class="ci-edit">
-                    <a href="#" class="edit fa fa-edit"></a>
-                    <a href="#" class="edit fa fa-trash"></a>
+                    <!-- <a href="#" class="edit fa fa-edit"></a> -->
+                    <a href="delcart.php?id=<?php echo $key; ?>" class="edit fa fa-trash"></a>
                 </div>
             </div>
         </div>

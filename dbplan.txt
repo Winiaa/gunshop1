@@ -20,7 +20,25 @@ Products
 -description
 
 Users
+-id
+-email
+-password
+-timestamp
+
 Users Meta
+-id
+-userid
+-firstname
+-lastname
+-company
+-address1
+-address2
+-city
+-state
+-country
+-zip
+-mobile
+
 
 Orders
 OrderItems

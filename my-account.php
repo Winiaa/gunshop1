@@ -1,6 +1,18 @@
+<?php
+ob_start();
+session_start();
+require_once 'config/connect.php';
+    if(!isset($_SESSION['customer']) & empty($_SESSION['customer'])){
+        header('location: login.php');
+    }
 
+    ?>
+<?php require_once 'config/connect.php'; ?>
 <?php include 'inc/header.php' ?>
-<?php include 'inc/nav.php' ?>
+<?php include 'inc/nav.php';
+$uid = $_SESSION['customerid'];
+$cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();  // Check if $_SESSION['cart'] is set
+?>
 
     <!-- SHOP CONTENT -->
     <section id="content">
@@ -20,62 +32,41 @@
                                 <th>Order</th>
                                 <th>Date</th>
                                 <th>Status</th>
+                                <th>Payment Mode</th>
                                 <th>Total</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
+                                <?php
+                                $ordsql = "SELECT * FROM orders WHERE uid='$uid'";
+                                $ordres = mysqli_query($connection, $ordsql);
+                                while($ordr = mysqli_fetch_assoc($ordres)){
+
+                                
+                                ?>
                             <tr>
                                 <td>
-                                    900
+                                   <?php echo $ordr['id']; ?>
                                 </td>
                                 <td>
-                                    June 15, 2015
+                                <?php echo $ordr['timestamp']; ?>
                                 </td>
                                 <td>
-                                    Delivered
+                                <?php echo $ordr['orderstatus']; ?>
                                 </td>
                                 <td>
-                                    &pound;173 for 4 items
+                                <?php echo $ordr['paymentmode']; ?>
+                                </td>
+                                <td>
+                                $<?php echo $ordr['totalprice']; ?>/-
                                 </td>
                                 <td>
                                     <a href="#">View</a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    873
-                                </td>
-                                <td>
-                                    June 02, 2015
-                                </td>
-                                <td>
-                                    Delivered
-                                </td>
-                                <td>
-                                    &pound;55 for 2 items
-                                </td>
-                                <td>
-                                    <a href="#">View</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    629
-                                </td>
-                                <td>
-                                    March 23, 2015
-                                </td>
-                                <td>
-                                    Delivered
-                                </td>
-                                <td>
-                                    &pound;599 for 14 items
-                                </td>
-                                <td>
-                                    <a href="#">View</a>
-                                </td>
-                            </tr>
+                            <?php } ?>
+                        
                             </tbody>
                         </table>
 

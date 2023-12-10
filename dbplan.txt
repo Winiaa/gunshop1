@@ -41,7 +41,22 @@ Users Meta
 
 
 Orders
+-id
+-userid
+-totalprice
+-timestamp
+-orderstatus
+-paymentmode
+
 OrderItems
+-id
+-orderid
+-productid
+-productprice
+
 OrdersTracking
+-id
+-orderid
+-status
 
 Wishlist

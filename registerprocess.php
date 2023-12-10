@@ -11,6 +11,7 @@ if (isset($_POST) && !empty($_POST)) {
 
     if ($result) {
         $_SESSION['customer'] = $email;
+        $_SESSION['customerid'] = mysqli_insert_id($connection);
         // Registration successful, you might want to redirect to a different page
         header("location:checkout.php");
         // echo "User registered successfully!";

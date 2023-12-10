@@ -13,7 +13,8 @@ if (isset($_POST) && !empty($_POST)) {
     if (password_verify($password, $r['password'])) {
         //echo "User exists, create session";
         $_SESSION['customer'] = $email;
-        header("location:checkout.php");
+        $_SESSION['customerid'] = $r['id'];
+        header("location:index.php");
     } else {
         // $fmsg =  "Invalid Login Credentials";
         header("location:login.php?message=1");

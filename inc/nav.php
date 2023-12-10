@@ -88,7 +88,7 @@ foreach ($cart as $key => $value) {
 
                 <div class="cart-btn">
                     <a href="cart.php">View Bag</a>
-                    <a href="#">Checkout</a>
+                    <a href="checkout.php">Checkout</a>
                 </div>
             </div>
         </div>

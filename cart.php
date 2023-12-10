@@ -94,7 +94,7 @@ foreach ($cart as $key => $value) {
                                     <div class="col-md-6">
                                         <div class="cart-btn">
                                             <!-- <button class="button btn-md" type="submit">Update Cart</button> -->
-                                            <button class="button btn-md" type="submit">Checkout</button>
+                                            <a href="checkout.php" class="button btn-md" >Checkout</a>
                                         </div>
                                     </div>
                                 </td>

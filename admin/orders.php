@@ -48,7 +48,7 @@ while ($r = mysqli_fetch_assoc($res)) {
         <td><?php echo $r['orderstatus']; ?></td>
         <td><?php echo $r['paymentmode']; ?></td>
         <td><?php echo $r['timestamp']; ?></td>
-        <td><a href="editproduct.php?id=<?php echo $r['id']; ?>">Edit</a> | <a href="delproduct.php?id=<?php echo $r['id']; ?>">Delete</a></td>
+        <td><a href="order-process.php?id=<?php echo $r['id']; ?>">Process Order</a> 
 </tr>
 <?php } ?>
 </tbody>

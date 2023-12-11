@@ -57,6 +57,8 @@ OrderItems
 OrdersTracking
 -id
 -orderid
--status
+-status (Order Placed, In progress, Dispatched, Delivered, Canceled)
+update (reason)
+-timestamp
 
 Wishlist

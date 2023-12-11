@@ -29,48 +29,88 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();  // Check if $_S
                         <table class="cart-table account-table table table-bordered">
                             <thead>
                             <tr>
-                                <th>Order</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Payment Mode</th>
-                                <th>Total</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
                                 <th></th>
+                                <th>Total</th>     
                             </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                $ordsql = "SELECT * FROM orders WHERE uid='$uid'";
+                                // In this logic, help us to view the order detail
+
+                                if(isset($_GET['id']) & !empty($_GET['id'])){
+                                    $oid = $_GET['id'];
+                                }else{
+                                    header('location: my-account.php');
+                                }
+                                $ordsql = "SELECT * FROM orders WHERE uid='$uid' AND id='$oid'";
+
                                 $ordres = mysqli_query($connection, $ordsql);
-                                while($ordr = mysqli_fetch_assoc($ordres)){
+                                $ordr = mysqli_fetch_assoc($ordres);
+                                
+                                $orditmsql = "SELECT * FROM orderitems o JOIN products p WHERE o.orderid=16 AND o.pid=p.id";
+                                $orditmres = mysqli_query($connection, $orditmsql);
+                                while ($orditmr = mysqli_fetch_assoc($orditmres)) {
 
                                 
                                 ?>
                             <tr>
                                 <td>
-                                   <?php echo $ordr['id']; ?>
+                                  <a href="single.php?id=<?php echo $orditmr['pid']; ?>"><?php echo substr($orditmr['name'], 0, 25); ?></a>
                                 </td>
                                 <td>
-                                <?php echo $ordr['timestamp']; ?>
+                                <?php echo $orditmr['pquantity']; ?>
                                 </td>
                                 <td>
-                                <?php echo $ordr['orderstatus']; ?>
+                                $<?php echo $orditmr['productprice']; ?>/-
                                 </td>
                                 <td>
-                                <?php echo $ordr['paymentmode']; ?>
+                             
                                 </td>
                                 <td>
-                                $<?php echo $ordr['totalprice']; ?>/-
+                                $<?php echo $orditmr['productprice'] * $orditmr['pquantity']; ?>/-
                                 </td>
-                                <td>
-                                    <a href="view-order.php?id=<?php echo $ordr['id']; ?>">View</a> 
-                                    <?php if($ordr['orderstatus'] != 'Cancelled'){ ?>
-                                    
-                                    |<a href="cancel-order.php?id=<?php echo $ordr['id']; ?>">Cancel</a>
-                                    <?php } ?>
-                                   
-                                </td>
+                            
                             </tr>
                             <?php } ?>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    Order Total
+                                </td>
+                                <td>
+                                 $<?php echo $ordr['totalprice']; ?>/-
+                                </td>
+              
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                     Order Status
+                                </td>
+                                <td>
+                                 <?php echo $ordr['orderstatus']; ?>
+                                </td>
+                     
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                     Order Placed On
+                                </td>
+                                <td>
+                                 <?php echo $ordr['timestamp']; ?>
+                                </td>
+                    
+                            </tr>
                         
                             </tbody>
                         </table>
@@ -84,7 +124,7 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();  // Check if $_S
                             <p>The following addresses will be used on the checkout page by default.</p>
 
                             <div class="row">
-                            <div class="col-md-6">
+                                <div class="col-md-6">
                                     <h4>My Address <a href="edit-address.php">Edit</a></h4>
                                     <?php
                                                                             // This code to show the address detail in customer account
@@ -94,6 +134,7 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();  // Check if $_S
                                                 JOIN usersmeta u1 ON u.id = u1.id 
                                                 WHERE u.id = $uid";
 
+                                        $cres = mysqli_query($connection, $csql);
                                         $cres = mysqli_query($connection, $csql);
                                         if(mysqli_num_rows($cres) == 1){
                                             $cr = mysqli_fetch_assoc($cres);

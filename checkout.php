@@ -153,11 +153,7 @@ $r = mysqli_fetch_assoc($res)
                     <div class="col-md-6 col-md-offset-3">
                         <div class="billing-details">
                             <h3 class="uppercase">Billing Details</h3>
-                            <pre>
-                            <?php 
-                                // print_r($_SESSION['cart']);
-                            ?>
-                            </pre>
+                           
                             <div class="space30"></div>
                                 <label class="">Country </label>
                                 <select name="country" class="form-control">
@@ -276,8 +272,7 @@ $r = mysqli_fetch_assoc($res)
                    
                         <input name="agree" id="checkboxG2" class="css-checkbox" type="checkbox" value="true"><span>I've read and accept the <a href="#">terms &amp; conditions</a></span>
                    
-                    <div class="space30"></div>
-                    <input type="submit" class="button btn-lg" value="Pay Now">
+            
                 </div>
             </div>
 </form>
